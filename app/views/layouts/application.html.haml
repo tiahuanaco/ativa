@@ -1,16 +1,40 @@
-!!!
 %html
   %head
+    %meta{ :charset => "utf-8" }
+    -# Set the viewport width to device width for mobile
+    %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
     %title Ativa
-    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
-    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = stylesheet_link_tag    "application", media: "all"
+    = javascript_include_tag "vendor/custom.modernizr"
     = csrf_meta_tags
   %body
+    %nav.top-bar
+      %ul.title-area
+        %li.name
+          %h1
+            = link_to 'Ativa', root_url
+        %li.toggle-topbar.menu-icon
+          %a{href: '#'}
+            %span Menu
+      %section.top-bar-section
+        %ul.right
+          -if user_signed_in?
+            %li
+              = link_to 'My Account', user_url(current_user)
+            %li
+              = link_to 'Edit Profile', edit_user_registration_path
+            %li
+              = link_to 'Sign out', destroy_user_session_path, method: :delete
+          -else
+            %li
+              = link_to "Sign up", new_user_registration_path
+            %li
+              = link_to "Sign in", new_user_session_path
     .row
-      .large-1.columns
-      .large-11.columns
-        = link_to 'Home', root_url
-        |
-        = link_to 'My Account', user_url(User.last.id)
+      .large-12.columns
+        - if flash.present?
+          - flash.each do |name, msg|
+            = content_tag :div, msg, class: name
         = yield
-      .large-11.columns
+
+        = javascript_include_tag "application"

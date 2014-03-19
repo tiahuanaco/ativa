@@ -10,21 +10,8 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    if params[:phase]
-      @show_phase = Phase.find_by_name(params[:phase])
-    else
-      @show_phase = @project.phase
-    end
-
-    if params[:page]
-      @page = params[:page]
-    else
-      @page = 'index'
-    end
-
-    @posts = @project.posts.where(phase_id: @show_phase.id)
-
-    if params[:post_id] then @post = Post.find(params[:post_id]) end
+    @phase = params[:phase_id] ? Phase.find(params[:phase_id]) : @project.phase
+    @posts = @project.posts.where(phase_id: @phase.id)
   end
 
   # GET /projects/new
@@ -43,7 +30,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        format.html { redirect_to projects_url, notice: 'Project was successfully created.' }
+        format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render action: 'show', status: :created, location: @project }
       else
         format.html { render action: 'new' }

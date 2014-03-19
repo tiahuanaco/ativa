@@ -1,6 +1,0 @@
-%h2= @post.title
-%p= @post.message
-- if @post.attachment == ""
-  no attachment available
--else
-  %iframe{height: "800", width:"100%", frameBorder: "0", src: @post.attachment}

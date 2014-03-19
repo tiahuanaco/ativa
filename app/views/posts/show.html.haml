@@ -1,21 +1,11 @@
-%p#notice= notice
+=render partial: 'layouts/projects'
 
-%p
-  %b Title:
-  = @post.title
-%p
-  %b Message:
-  = @post.message
-%p
-  %b Attachment:
-  = @post.attachment
-%p
-  %b Phase:
-  = @post.phase
-%p
-  %b Project:
-  = @post.project
+%h2= @post.title
+= link_to 'Edit', edit_project_post_path(@project, @post, phase_id: @phase), class: [:small, :button]
 
-= link_to 'Edit', edit_post_path(@post)
-\|
-= link_to 'Back', posts_path
+= link_to 'Back', project_path(@project, phase_id: @phase), class: [:small, :button]
+%p= @post.message
+- if @post.attachment == ""
+  no attachment available
+-else
+  %iframe{height: "800", width:"100%", frameBorder: "0", src: @post.attachment}

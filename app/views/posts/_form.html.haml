@@ -1,25 +1,23 @@
-= form_for @post do |f|
+= form_for [@project, @post], :html => {multipart: true} do |f|
   - if @post.errors.any?
     #error_explanation
       %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
       %ul
         - @post.errors.full_messages.each do |msg|
           %li= msg
+  .row
+    .large-6.columns
+      .field
+        = f.text_field :title, placeholder: "Title"
+  .row
+    .large-8.columns
+      .field
+        = f.text_area :message, placeholder: "Type your message..."
+      .field
+        = f.text_field :attachment, rows: 1, style: 'width: 90%;', placeholder: "Paste your attachment..."
 
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :message
-    = f.text_area :message
-  .field
-    = f.label :attachment
-    = f.text_field :attachment
-  .field
-    = f.label :phase
-    = f.text_field :phase
-  .field
-    = f.label :project
-    = f.text_field :project
-  .actions
-    = f.submit 'Save'
+        = f.hidden_field :phase_id, value: @phase.id
+        = f.hidden_field :project_id, value: @project.id
+
+      .actions
+        = f.submit 'Upload'

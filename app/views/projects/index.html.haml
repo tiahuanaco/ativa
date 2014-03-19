@@ -1,20 +1,19 @@
-%h1.text-center
-  Active Projects
-  %small= link_to 'New Project', new_project_path
+.row
+  %h1.large-12.columns
+    Active Projects
 
 %table
   %tr
     %th Name
     %th Last updated
-    %th
-    %th
-    %th
 
   - @projects.each do |project|
     %tr
       %td
-        = link_to project.name, project_url(project.id)
+        = link_to project.name, project_path(project)
         = "(#{project.phase.name})"
       %td= project.updated_at.strftime("%m/%d/%y at %I:%M%P")
 
-
+.row
+  .large-12.columns
+    = link_to 'New Project', new_project_path, class: ['button', 'small']

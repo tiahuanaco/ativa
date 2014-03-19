@@ -1,7 +1,6 @@
+=render partial: 'layouts/projects'
+
 %h1 Editing post
+= link_to 'Back', project_path(@project, phase_id: @phase), class: [:small, :button]
 
 = render 'form'
-
-= link_to 'Show', @post
-\|
-= link_to 'Back', posts_path

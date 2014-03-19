@@ -1,0 +1,15 @@
+%h1= @project.name
+
+.row
+  .large-1.columns
+  .large-2.columns.large-offset-1
+    %ul.no-bullet
+      %b Phases
+      - phases.each do |phase|
+        %li
+          - if phase.id == @phase.id
+            =link_to "#{phase.name}<----", project_path(@project, phase_id: phase), class: 'selected'
+          - else
+            = link_to phase.name, project_path(@project, phase_id: phase)
+  .large-5.columns
+%br

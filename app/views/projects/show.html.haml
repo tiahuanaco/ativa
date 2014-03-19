@@ -1,23 +1,16 @@
-%p#notice= notice
+=render partial: 'layouts/projects'
 
-%h1= @project.name
+%h3
+  = @phase.name + " Phase"
+  = link_to 'add post', new_project_post_path(@project, phase_id: @phase), class: ['tiny', 'button']
 
-
-.row
-  .large-1.columns
-  .large-2.columns.large-offset-1
-    %ul.disc
-      %b Phases
-      - phases.each do |phase|
-        %li
-          - if phase == @project.phase.name 
-            =link_to "#{phase.capitalize}<--", project_url(@project.id, phase: phase)
-          - else
-            = link_to phase.capitalize, project_url(@project.id, phase: phase)
-  .large-5.columns
-
-%br
-%br
-
-
-= render "projects/posts/#{@page}"
+- @posts.each do |post|
+  .row
+    .large-2.columns
+      = image_tag post.user.profile_pic
+      %p= post.user.name
+    .large-10.columns
+      %b= link_to post.title, project_post_path(@project, post, phase_id: @phase)
+      %small= post.updated_at.strftime("%m/%d/%y at %I:%M%P")
+      = if post.attachment? then image_tag 'https://s3.amazonaws.com/mks_learn_app/paperclip.png', width: '12px' end
+      %p= post.message.truncate(300)
